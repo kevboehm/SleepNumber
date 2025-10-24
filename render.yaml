@@ -3,7 +3,6 @@ services:
     name: sleepnumber-backend
     env: python
     plan: free
-    pythonVersion: 3.11.10
     buildCommand: pip install -r backend/requirements.txt
     startCommand: cd backend && gunicorn --bind 0.0.0.0:$PORT app:app
     envVars:
