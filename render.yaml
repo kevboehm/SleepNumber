@@ -17,10 +17,8 @@ services:
       - key: ADMIN_PASSWORD
         value: admin123
 
-  - type: web
+  - type: static
     name: sleepnumber-frontend
-    env: static
-    plan: free
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/build
     envVars:
