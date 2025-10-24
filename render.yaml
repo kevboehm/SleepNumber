@@ -17,14 +17,6 @@ services:
       - key: ADMIN_PASSWORD
         value: admin123
 
-  - type: static
-    name: sleepnumber-frontend
-    buildCommand: cd frontend && npm install && npm run build
-    staticPublishPath: frontend/build
-    envVars:
-      - key: REACT_APP_API_URL
-        value: https://sleepnumber-backend.onrender.com/api
-
 databases:
   - name: sleepnumber-db
     plan: free
