@@ -3,19 +3,13 @@ services:
     name: sleepnumber-backend
     env: python
     plan: free
-    buildCommand: pip install -r backend/requirements.txt
-    startCommand: cd backend && gunicorn --bind 0.0.0.0:$PORT app:app
+    buildCommand: pip install flask flask-cors python-dotenv gunicorn
+    startCommand: cd backend && gunicorn --bind 0.0.0.0:$PORT simple_app:app
     envVars:
       - key: FLASK_ENV
         value: production
       - key: SECRET_KEY
         generateValue: true
-      - key: JWT_SECRET_KEY
-        generateValue: true
-      - key: ENCRYPTION_KEY
-        generateValue: true
-      - key: ADMIN_PASSWORD
-        value: admin123
 
 databases:
   - name: sleepnumber-db
