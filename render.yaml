@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: sleepnumber-backend
+    env: python
+    plan: free
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && python app.py
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: ENCRYPTION_KEY
+        generateValue: true
+      - key: ADMIN_PASSWORD
+        value: admin123
+
+  - type: web
+    name: sleepnumber-frontend
+    env: static
+    plan: free
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/build
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://sleepnumber-backend.onrender.com/api
+
+databases:
+  - name: sleepnumber-db
+    plan: free
