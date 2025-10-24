@@ -16,7 +16,18 @@ class SleepIQService:
             self.encryption_key = Fernet.generate_key()
             logger.warning("No ENCRYPTION_KEY found in environment. Generated new key for development.")
         
-        self.cipher_suite = Fernet(self.encryption_key.encode() if isinstance(self.encryption_key, str) else self.encryption_key)
+        # Ensure the key is properly formatted
+        try:
+            if isinstance(self.encryption_key, str):
+                # If it's a string, try to decode it as base64
+                self.cipher_suite = Fernet(self.encryption_key.encode())
+            else:
+                self.cipher_suite = Fernet(self.encryption_key)
+        except Exception as e:
+            # If the key is invalid, generate a new one
+            logger.warning(f"Invalid encryption key, generating new one: {str(e)}")
+            self.encryption_key = Fernet.generate_key()
+            self.cipher_suite = Fernet(self.encryption_key)
         self.base_url = "https://prod-api.sleepiq.sleepnumber.com"
     
     def _get_session(self, user_id):
