@@ -31,7 +31,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 jwt = JWTManager(app)
 migrate = Migrate(app, db)
-CORS(app, origins=['http://localhost:3000', 'http://localhost:3001'])
+CORS(app, origins=['*'])
 
 # Import models to ensure they're registered with SQLAlchemy
 from models.database import User, MattressCredentials, Sleeper, Schedule, AdjustmentLog
@@ -51,9 +51,10 @@ app.register_blueprint(logs_bp, url_prefix='/api/logs')
 # Health check endpoint
 @app.route('/api/health')
 def health_check():
+    from datetime import datetime
     return jsonify({
         'status': 'OK',
-        'timestamp': db.func.now(),
+        'timestamp': datetime.utcnow().isoformat(),
         'version': '1.0.0'
     })
 
